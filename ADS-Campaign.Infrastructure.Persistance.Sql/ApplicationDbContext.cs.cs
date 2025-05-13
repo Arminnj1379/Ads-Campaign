@@ -1,6 +1,7 @@
 ﻿using ADS_Campaign.Domain.Entities.AdImages;
 using ADS_Campaign.Domain.Entities.AdminLogs;
 using ADS_Campaign.Domain.Entities.Ads;
+using ADS_Campaign.Domain.Entities.ApplicationRole;
 using ADS_Campaign.Domain.Entities.ApplicationUser;
 using ADS_Campaign.Domain.Entities.Campaigns;
 using ADS_Campaign.Domain.Entities.Categories;
@@ -22,6 +23,7 @@ namespace ADS_Campaign.Infrastructure.Persistance.Sql
             builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<ApplicationRole> ApplicationRoles { get; set; }
         public DbSet<AdImage> AdImages { get; set; }
         public DbSet<AdminLog> AdminLogs { get; set; }
         public DbSet<Ad> Ads { get; set; }

@@ -16,11 +16,13 @@ namespace ADS_Campaign.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _configuration;
-        public AuthService(IUnitOfWork unitOfWork, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
+        private readonly IUserService _userService;
+        public AuthService(IUnitOfWork unitOfWork, SignInManager<ApplicationUser> signInManager, IUserService userService, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _signInManager = signInManager;
             _configuration = configuration;
+            _userService = userService;
         }
 
         public async Task<object> LoginAsync(LoginDto loginDto)
@@ -53,8 +55,8 @@ namespace ADS_Campaign.Application.Services
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
-
-            return new { Succeeded = result.Succeeded, Token = tokenString, UserName = user.UserName };
+            var role = await _userService.GetUserRolesAsync(user.Id);
+            return new { Succeeded = result.Succeeded, Token = tokenString, UserName = user.UserName, Role = role };
         }
     }
 }

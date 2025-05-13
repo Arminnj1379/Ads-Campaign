@@ -1,17 +1,22 @@
 using System.Text;
 using ADS_Campaign.Application.Mapper;
+using ADS_Campaign.Domain.Entities.ApplicationRole;
 using ADS_Campaign.Domain.Entities.ApplicationUser;
 using ADS_Campaign.Infrastructure.Config;
 using ADS_Campaign.Infrastructure.Persistance.Sql;
+using ADS_Campaign.Infrastructure.Persistance.Sql.Identity;
 using Autofac;
+using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(option =>
 {
@@ -57,17 +62,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 
 //Identity
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders()
+    .AddRoleManager<RoleManager<ApplicationRole>>()
+    .AddUserManager<UserManager<ApplicationUser>>(); ;
 
+builder.Services.AddScoped<IRoleStore<ApplicationRole>, RoleStore<ApplicationRole, ApplicationDbContext>>();
 //config autofac
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => containerBuilder.RegisterModule(new AutofacModule(builder.Configuration.GetConnectionString("DbConnection"))));
-Host.CreateDefaultBuilder(args).UseServiceProviderFactory(new AutofacServiceProviderFactory());
-var autofac = new ContainerBuilder();
-autofac.RegisterModule(new AutofacModule(builder.Configuration.GetConnectionString("DbConnection")));
+builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+    containerBuilder.RegisterModule(new AutofacModule(builder.Configuration.GetConnectionString("DbConnection"))));
 // end config autofac
+
 
 //Authentication Setting
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
@@ -96,8 +103,16 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddScoped<RoleSeeder>();
+
+
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<RoleSeeder>();
+    await seeder.SeedRolesAsync();
+}
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{

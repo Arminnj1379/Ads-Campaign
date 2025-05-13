@@ -1,7 +1,10 @@
-﻿using ADS_Campaign.Application.DTOs.Atuh;
+﻿using System.Data;
+using ADS_Campaign.Application.DTOs.Atuh;
 using ADS_Campaign.Application.Interfaces;
+using ADS_Campaign.Domain.Entities.ApplicationRole;
 using ADS_Campaign.Domain.Entities.ApplicationUser;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ADS_Campaign.Application.Services
 {
@@ -23,30 +26,59 @@ namespace ADS_Campaign.Application.Services
                 FullName = dto.UserName
             };
 
-            return await _userManager.CreateAsync(user, dto.Password);
+            var result = await _userManager.CreateAsync(user, dto.Password);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, ApplicationRole.User);
+            }
+            return result;
         }
 
         public async Task<UserDto> GetUserByIdAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return null;
-
+            var userRole = await GetUserRolesAsync(userId);
             return new UserDto
             {
                 Id = user.Id,
                 UserName = user.UserName,
-                Email = user.Email
+                Email = user.Email,
+                Role = userRole
             };
         }
 
         public async Task<List<UserDto>> GetAllUsersAsync()
         {
-            return _userManager.Users.Select(u => new UserDto
+            var users = await _userManager.Users.ToListAsync();
+            var userDtos = new List<UserDto>();
+
+            foreach (var user in users)
             {
-                Id = u.Id,
-                UserName = u.UserName,
-                Email = u.Email
-            }).ToList();
+                var role = await GetUserRolesAsync(user.Id);
+
+                userDtos.Add(new UserDto
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Role = role
+                });
+            }
+            return userDtos;
+        }
+
+        public async Task<string> GetUserRolesAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                throw new ArgumentException("کاربری با این ID یافت نشد.");
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            return roles.FirstOrDefault();
         }
 
         public async Task<IdentityResult> UpdateUserAsync(string userId, UpdateUserDto dto)
