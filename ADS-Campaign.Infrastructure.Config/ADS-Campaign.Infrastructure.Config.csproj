@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>ADS_Campaign.Infrastructure.Config</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="8.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ADS-Campaign.Application\ADS-Campaign.Application.csproj" />
+    <ProjectReference Include="..\ADS-Campaign.Infrastructure.Persistance.Sql\ADS-Campaign.Infrastructure.Persistance.Sql.csproj" />
+  </ItemGroup>
+
+</Project>
