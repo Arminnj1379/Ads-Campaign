@@ -1,5 +1,6 @@
 ﻿using ADS_Campaign.Domain.Entities.Ads;
 using ADS_Campaign.Domain.Entities.ApplicationUser;
+using ADS_Campaign.Domain.Entities.Categories;
 
 namespace ADS_Campaign.Domain
 {
@@ -7,6 +8,7 @@ namespace ADS_Campaign.Domain
     {
         IUserRepository UserRepository { get; }
         IAdRepository AdRepository { get; }
+        ICategoryRepository CategoryRepository { get; }
         Task<int> Save();
     }
 }

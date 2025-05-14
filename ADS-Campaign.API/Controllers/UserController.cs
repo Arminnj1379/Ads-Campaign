@@ -51,5 +51,12 @@ namespace ADS_Campaign.API.Controllers
             if (result.Succeeded) return Ok("User deleted");
             return BadRequest(result.Errors);
         }
+
+        [HttpPost("AddAdmin")]
+        public async Task<IActionResult> AddAdmin([FromQuery] string userid)
+        {
+            await _userService.AddAdmin(userid);
+            return Ok();
+        }
     }
 }

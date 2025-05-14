@@ -16,7 +16,7 @@ namespace ADS_Campaign.Infrastructure.Persistance.Sql.Repositories
 
         public async Task<List<T>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.AsNoTracking().ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(dynamic id)

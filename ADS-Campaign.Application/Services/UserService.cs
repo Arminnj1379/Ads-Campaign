@@ -1,5 +1,4 @@
-﻿using System.Data;
-using ADS_Campaign.Application.DTOs.Atuh;
+﻿using ADS_Campaign.Application.DTOs.Atuh;
 using ADS_Campaign.Application.Interfaces;
 using ADS_Campaign.Domain.Entities.ApplicationRole;
 using ADS_Campaign.Domain.Entities.ApplicationUser;
@@ -98,6 +97,13 @@ namespace ADS_Campaign.Application.Services
             if (user == null) return IdentityResult.Failed(new IdentityError { Description = "User not found" });
 
             return await _userManager.DeleteAsync(user);
+        }
+
+        public async Task AddAdmin(string userid)
+        {
+            var user = await _userManager.FindByIdAsync(userid);
+            await _userManager.RemoveFromRoleAsync(user, ApplicationRole.User);
+            await _userManager.AddToRoleAsync(user, ApplicationRole.Admin);
         }
     }
 }

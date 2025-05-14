@@ -1,16 +1,14 @@
-﻿using System.Linq;
-using ADS_Campaign.Application.DTOs.Ad;
+﻿using ADS_Campaign.Application.DTOs.Ad;
 using ADS_Campaign.Application.Interfaces;
 using ADS_Campaign.Application.Mapper;
 using ADS_Campaign.Domain;
-using AutoMapper;
 
 namespace ADS_Campaign.Application.Services
 {
     public class AdService : IAdService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public AdService(IUnitOfWork unitOfWork, IMapper mapper)
+        public AdService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
