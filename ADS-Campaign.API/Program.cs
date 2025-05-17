@@ -18,6 +18,7 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
@@ -114,12 +115,14 @@ using (var scope = app.Services.CreateScope())
     await seeder.SeedRolesAsync();
 }
 // Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-app.UseSwagger();
-app.UseSwaggerUI(c => c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None));
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
 
-//}
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None));
+
+}
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAllOrigins");

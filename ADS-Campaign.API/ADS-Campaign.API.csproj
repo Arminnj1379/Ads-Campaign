@@ -27,4 +27,8 @@
     <ProjectReference Include="..\ADS-Campaign.Infrastructure.Persistance.Sql\ADS-Campaign.Infrastructure.Persistance.Sql.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UploadedFiles\" />
+  </ItemGroup>
+
 </Project>
