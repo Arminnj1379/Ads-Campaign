@@ -115,14 +115,14 @@ using (var scope = app.Services.CreateScope())
     await seeder.SeedRolesAsync();
 }
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
+//if (app.Environment.IsDevelopment())
+//{
+app.UseDeveloperExceptionPage();
 
-    app.UseSwagger();
-    app.UseSwaggerUI(c => c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None));
+app.UseSwagger();
+app.UseSwaggerUI(c => c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None));
 
-}
+//}
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAllOrigins");
