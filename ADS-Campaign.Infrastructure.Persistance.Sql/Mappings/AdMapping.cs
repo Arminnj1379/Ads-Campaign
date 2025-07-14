@@ -22,7 +22,7 @@ namespace ADS_Campaign.Infrastructure.Persistance.Sql.Mappings
             builder.Property(a => a.Price)
                 .HasColumnType("decimal(18,2)");
 
-            builder.Property(a => a.Location)
+            builder.Property(a => a.Address)
                 .HasMaxLength(300);
 
             // Relationships

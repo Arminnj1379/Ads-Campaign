@@ -31,7 +31,7 @@ namespace ADS_Campaign.Application.Services
             var ad = await _unitOfWork.AdRepository.GetByIdAsync(id);
             ad.CategoryId = updateAdDto.CategoryId;
             ad.Status = updateAdDto.Status;
-            ad.Location = updateAdDto.Location;
+            ad.Address = updateAdDto.Address;
             ad.Price = updateAdDto.Price;
             ad.Title = updateAdDto.Title;
             ad.Description = updateAdDto.Description;
