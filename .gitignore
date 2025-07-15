@@ -393,3 +393,4 @@ FodyWeavers.xsd
 *.sln.iml
 /ADS-Campaign.API/UploadedFiles/ChatGPT Image May 11, 2025, 02_48_51 PM.png
 /ADS-Campaign.API/UploadedFiles
+/ADS-Campaign.API/wwwroot/uploads
