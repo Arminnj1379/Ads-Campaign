@@ -3,5 +3,6 @@
     public interface IAdRepository : IRepository<Ad>
     {
         Task<List<Ad>> GetByUserIdAsync(string userid);
+        Task<List<Ad>> GetAllAdsWithImages();
     }
 }

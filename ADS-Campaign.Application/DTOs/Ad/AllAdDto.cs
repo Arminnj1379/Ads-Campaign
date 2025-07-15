@@ -14,5 +14,6 @@ namespace ADS_Campaign.Application.DTOs.Ad
         public AdStatus Status { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
+        public List<string> Images { get; set; }
     }
 }

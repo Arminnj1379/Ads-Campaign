@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using ADS_Campaign.Application.Mapper;
 using ADS_Campaign.Domain.Entities.ApplicationRole;
 using ADS_Campaign.Domain.Entities.ApplicationUser;
@@ -129,6 +129,7 @@ app.UseCors("AllowAllOrigins");
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseStaticFiles();
 
 app.MapControllers();
 

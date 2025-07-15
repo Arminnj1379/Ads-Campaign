@@ -12,5 +12,8 @@ namespace ADS_Campaign.Infrastructure.Persistance.Sql.Repositories
         }
 
         public async Task<List<Ad>> GetByUserIdAsync(string userid) => await _context.Ads.Where(a => a.UserId == userid).ToListAsync();
+
+        public async Task<List<Ad>> GetAllAdsWithImages() => await _context.Ads.AsNoTracking().AsSplitQuery()
+            .Include(a => a.Images).ToListAsync();
     }
 }

@@ -4,7 +4,7 @@ namespace ADS_Campaign.Application.Interfaces
 {
     public interface IAdService
     {
-        Task AddAsync(AddAdDto adDto, string userid);
+        Task AddAsync(AddAdDto adDto, string userid, string imageurl);
         Task<List<AllAdDto>> GetAllAsync();
         Task UpdateAsync(Guid id, UpdateAdDto updateAdDto);
         Task<GetByIdAdDto> GetByIdAsync(Guid id);

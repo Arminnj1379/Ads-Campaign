@@ -1,4 +1,5 @@
 ﻿using ADS_Campaign.Application.DTOs.Ad;
+using ADS_Campaign.Application.DTOs.AdImage;
 using ADS_Campaign.Application.Interfaces;
 using ADS_Campaign.Application.Mapper;
 using ADS_Campaign.Domain;
@@ -8,16 +9,23 @@ namespace ADS_Campaign.Application.Services
     public class AdService : IAdService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public AdService(IUnitOfWork unitOfWork)
+        private readonly IAdImageService _imageService;
+        public AdService(IUnitOfWork unitOfWork, IAdImageService imageService)
         {
             _unitOfWork = unitOfWork;
+            _imageService = imageService;
         }
 
-        public async Task AddAsync(AddAdDto adDto, string userid)
+        public async Task AddAsync(AddAdDto adDto, string userid, string imageurl)
         {
             var id = Guid.NewGuid();
             await _unitOfWork.AdRepository.AddAsync(adDto.Factory(id, userid));
             await _unitOfWork.Save();
+            await _imageService.AddAsync(new AddAdImageDto
+            {
+                AdId = id,
+                ImageUrl = imageurl
+            });
         }
 
         public async Task DeleteAsync(Guid id)
@@ -47,7 +55,7 @@ namespace ADS_Campaign.Application.Services
 
         public async Task<List<AllAdDto>> GetAllAsync()
         {
-            var ads = await _unitOfWork.AdRepository.GetAllAsync();
+            var ads = await _unitOfWork.AdRepository.GetAllAdsWithImages();
             return ads.AllAd();
         }
 

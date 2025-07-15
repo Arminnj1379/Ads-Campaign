@@ -52,7 +52,8 @@ namespace ADS_Campaign.Application.Mapper
                 Status = a.Status,
                 Title = a.Title,
                 UpdatedAt = a.UpdatedAt,
-                UserId = a.UserId
+                UserId = a.UserId,
+                Images = a.Images.Select(i => i.ImageUrl).ToList()
             }).ToList();
         }
 
