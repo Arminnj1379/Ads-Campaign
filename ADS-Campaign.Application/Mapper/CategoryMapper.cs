@@ -35,6 +35,7 @@ namespace ADS_Campaign.Application.Mapper
                 Name = categoryDto.Name,
                 Description = categoryDto.Description,
                 Id = categoryDto.Id,
+                IconClass = categoryDto.IconClass,
             }).ToList();
         }
     }

@@ -8,6 +8,7 @@ namespace ADS_Campaign.Domain.Entities.Categories
         public string Description { get; set; }
         public int? ParentId { get; set; }
         public DateTime CreatedAt { get; set; }
+        public string IconClass { get; set; }
         public Category Parent { get; set; }
         public ICollection<Category> Children { get; set; }
         public ICollection<Ad> Ads { get; set; }
