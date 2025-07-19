@@ -19,6 +19,7 @@ namespace ADS_Campaign.Application.Mapper
                 Title = addAdDto.Title,
                 UpdatedAt = null,
                 UserId = userid,
+                Location = addAdDto.Location,
             };
         }
 
@@ -35,7 +36,8 @@ namespace ADS_Campaign.Application.Mapper
                 Status = ad.Status,
                 Title = ad.Title,
                 UpdatedAt = ad.UpdatedAt,
-                UserId = ad.UserId
+                UserId = ad.UserId,
+                Location = ad.Location,
             };
         }
 
@@ -53,7 +55,8 @@ namespace ADS_Campaign.Application.Mapper
                 Title = a.Title,
                 UpdatedAt = a.UpdatedAt,
                 UserId = a.UserId,
-                Images = a.Images.Select(i => i.ImageUrl).ToList()
+                Images = a.Images.Select(i => i.ImageUrl).ToList(),
+                Location = a.Location,
             }).ToList();
         }
 
