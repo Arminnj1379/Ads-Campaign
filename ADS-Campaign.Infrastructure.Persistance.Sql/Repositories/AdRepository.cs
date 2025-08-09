@@ -13,7 +13,16 @@ namespace ADS_Campaign.Infrastructure.Persistance.Sql.Repositories
 
         public async Task<List<Ad>> GetByUserIdAsync(string userid) => await _context.Ads.Where(a => a.UserId == userid).ToListAsync();
 
-        public async Task<List<Ad>> GetAllAdsWithImages() => await _context.Ads.AsNoTracking().AsSplitQuery()
-            .Include(a => a.Images).ToListAsync();
+        public async Task<List<Ad>> GetAllAdsWithImages(string? title)
+        {
+            IQueryable<Ad> query = _context.Ads.AsNoTracking().AsSplitQuery()
+            .Include(a => a.Images);
+
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                query = query.Where(a => a.Title.Contains(title));
+            }
+            return await query.ToListAsync();
+        }
     }
 }

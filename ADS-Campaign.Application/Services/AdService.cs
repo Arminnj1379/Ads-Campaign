@@ -53,9 +53,9 @@ namespace ADS_Campaign.Application.Services
             return ad.GetByIdAd();
         }
 
-        public async Task<List<AllAdDto>> GetAllAsync()
+        public async Task<List<AllAdDto>> GetAllAsync(AdFilter? adFilter)
         {
-            var ads = await _unitOfWork.AdRepository.GetAllAdsWithImages();
+            var ads = await _unitOfWork.AdRepository.GetAllAdsWithImages(adFilter?.Title);
             return ads.AllAd();
         }
 

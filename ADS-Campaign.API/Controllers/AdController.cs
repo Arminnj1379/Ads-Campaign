@@ -2,7 +2,6 @@
 using ADS_Campaign.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ADS_Campaign.API.Controllers
 {
@@ -56,10 +55,10 @@ namespace ADS_Campaign.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAllAsync()
+        [HttpPost("GetAll")]
+        public async Task<IActionResult> GetAllAsync([FromBody] AdFilter? adFilter)
         {
-            var result = await _adService.GetAllAsync();
+            var result = await _adService.GetAllAsync(adFilter);
             return Ok(result);
         }
 
@@ -70,5 +69,6 @@ namespace ADS_Campaign.API.Controllers
             var result = await _adService.GetByUserIdAsync(UserId);
             return Ok(result);
         }
+
     }
 }
