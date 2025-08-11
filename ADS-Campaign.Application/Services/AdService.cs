@@ -49,7 +49,7 @@ namespace ADS_Campaign.Application.Services
 
         public async Task<GetByIdAdDto> GetByIdAsync(Guid id)
         {
-            var ad = await _unitOfWork.AdRepository.GetByIdAsync(id);
+            var ad = await _unitOfWork.AdRepository.GetByIdWithImages(id);
             return ad.GetByIdAd();
         }
 

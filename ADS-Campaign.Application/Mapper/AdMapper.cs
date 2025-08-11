@@ -38,6 +38,7 @@ namespace ADS_Campaign.Application.Mapper
                 UpdatedAt = ad.UpdatedAt,
                 UserId = ad.UserId,
                 Location = ad.Location,
+                Images = ad.Images.Select(i => i.ImageUrl).ToList(),
             };
         }
 

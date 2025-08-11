@@ -4,5 +4,6 @@
     {
         Task<List<Ad>> GetByUserIdAsync(string userid);
         Task<List<Ad>> GetAllAdsWithImages(string? title);
+        Task<Ad> GetByIdWithImages(Guid id);
     }
 }

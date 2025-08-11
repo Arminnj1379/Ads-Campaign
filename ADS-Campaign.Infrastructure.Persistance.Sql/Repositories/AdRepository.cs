@@ -11,7 +11,7 @@ namespace ADS_Campaign.Infrastructure.Persistance.Sql.Repositories
             _context = context;
         }
 
-        public async Task<List<Ad>> GetByUserIdAsync(string userid) => await _context.Ads.Where(a => a.UserId == userid).ToListAsync();
+        public async Task<List<Ad>> GetByUserIdAsync(string userid) => await _context.Ads.AsNoTracking().Where(a => a.UserId == userid).ToListAsync();
 
         public async Task<List<Ad>> GetAllAdsWithImages(string? title)
         {
@@ -24,5 +24,7 @@ namespace ADS_Campaign.Infrastructure.Persistance.Sql.Repositories
             }
             return await query.ToListAsync();
         }
+
+        public async Task<Ad> GetByIdWithImages(Guid id) => await _context.Ads.Include(a => a.Images).FirstOrDefaultAsync(a => a.Id == id);
     }
 }

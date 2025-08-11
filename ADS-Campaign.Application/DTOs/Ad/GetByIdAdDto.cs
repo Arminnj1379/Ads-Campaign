@@ -1,8 +1,4 @@
-﻿using ADS_Campaign.Domain.Entities.AdImages;
-using ADS_Campaign.Domain.Entities.Campaigns;
-using ADS_Campaign.Domain.Entities.Categories;
-using ADS_Campaign.Domain.Enums;
-using Microsoft.AspNetCore.Identity;
+﻿using ADS_Campaign.Domain.Enums;
 
 namespace ADS_Campaign.Application.DTOs.Ad
 {
@@ -19,5 +15,7 @@ namespace ADS_Campaign.Application.DTOs.Ad
         public AdStatus Status { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
+        public List<string> Images { get; set; }
+
     }
 }
