@@ -41,6 +41,11 @@ namespace ADS_Campaign.Infrastructure.Persistance.Sql.Mappings
                 .HasForeignKey<Campaign>(c => c.AdId)
                 .OnDelete(DeleteBehavior.SetNull);
 
+            builder.HasMany(a => a.Views)
+                   .WithOne(v => v.Ad)
+                   .HasForeignKey(v => v.AdId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
             // Auditing
             builder.Property(a => a.CreatedAt)
                 .IsRequired();

@@ -1,4 +1,5 @@
 ﻿using ADS_Campaign.Domain.Entities.AdImages;
+using ADS_Campaign.Domain.Entities.AdViews;
 using ADS_Campaign.Domain.Entities.Campaigns;
 using ADS_Campaign.Domain.Entities.Categories;
 using ADS_Campaign.Domain.Enums;
@@ -13,7 +14,8 @@ namespace ADS_Campaign.Domain.Entities.Ads
         public decimal Price { get; set; }
         public string Address { get; set; }
         public string Location { get; set; }
-
+        public string Number { get; set; }
+        public int ViewCount { get; set; } = 0;
         // Foreign Key: دسته‌بندی
         public int CategoryId { get; set; }
         public Category Category { get; set; }
@@ -33,5 +35,7 @@ namespace ADS_Campaign.Domain.Entities.Ads
 
         // رابطه با کمپین
         public Campaign Campaign { get; set; }
+        public ICollection<AdView> Views { get; set; } = new List<AdView>();
+
     }
 }

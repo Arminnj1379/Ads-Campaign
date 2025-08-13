@@ -3,6 +3,7 @@ using ADS_Campaign.Application.DTOs.AdImage;
 using ADS_Campaign.Application.Interfaces;
 using ADS_Campaign.Application.Mapper;
 using ADS_Campaign.Domain;
+using ADS_Campaign.Domain.Entities.AdViews;
 
 namespace ADS_Campaign.Application.Services
 {
@@ -53,6 +54,27 @@ namespace ADS_Campaign.Application.Services
             return ad.GetByIdAd();
         }
 
+        public async Task IncrementViewCountAsync(Guid adId, string userIp, CancellationToken cancellationToken = default)
+        {
+            // چک کنیم که توی یک ساعت گذشته دوباره نیاد بشماره
+            var alreadyViewed = await _unitOfWork.AdRepository.CheckForAddView(adId, userIp, cancellationToken);
+
+            if (!alreadyViewed)
+            {
+                var ad = await _unitOfWork.AdRepository.GetByIdAsync(adId, cancellationToken);
+                if (ad == null) return;
+
+                ad.ViewCount += 1;
+                var adview = new AdView
+                {
+                    AdId = adId,
+                    UserIp = userIp,
+                    ViewedAt = DateTime.UtcNow
+                };
+                await _unitOfWork.AdRepository.AddAdViewAsync(adview);
+                await _unitOfWork.Save();
+            }
+        }
         public async Task<List<AllAdDto>> GetAllAsync(AdFilter? adFilter)
         {
             var ads = await _unitOfWork.AdRepository.GetAllAdsWithImages(adFilter?.Title);
@@ -63,6 +85,12 @@ namespace ADS_Campaign.Application.Services
         {
             var ads = await _unitOfWork.AdRepository.GetByUserIdAsync(userid);
             return ads.AllAd();
+        }
+
+        public async Task<List<AllAdDto>> GetRelatedAdsWithImagesAsync(Guid adId)
+        {
+            var relatedAds = await _unitOfWork.AdRepository.GetRelatedAdsWithImagesAsync(adId);
+            return relatedAds.AllAd();
         }
     }
 }

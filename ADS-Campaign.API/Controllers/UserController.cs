@@ -1,5 +1,6 @@
 ﻿using ADS_Campaign.Application.DTOs.Atuh;
 using ADS_Campaign.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ADS_Campaign.API.Controllers
@@ -14,7 +15,8 @@ namespace ADS_Campaign.API.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create(RegisterDto dto)
+        [AllowAnonymous]
+        public async Task<IActionResult> Create([FromBody] RegisterDto dto)
         {
             var result = await _userService.CreateUserAsync(dto);
             if (result.Succeeded) return Ok("User created");

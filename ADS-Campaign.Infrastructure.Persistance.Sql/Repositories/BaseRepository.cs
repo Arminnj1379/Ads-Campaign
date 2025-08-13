@@ -14,14 +14,14 @@ namespace ADS_Campaign.Infrastructure.Persistance.Sql.Repositories
             _dbSet = context.Set<T>();
         }
 
-        public async Task<List<T>> GetAllAsync()
+        public async Task<List<T>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             return await _dbSet.AsNoTracking().ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(dynamic id)
+        public async Task<T> GetByIdAsync(dynamic id, CancellationToken cancellationToken = default)
         {
-            return await _dbSet.FindAsync(id);
+            return await _dbSet.FindAsync(id, cancellationToken);
         }
 
         public async Task AddAsync(T entity)

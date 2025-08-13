@@ -70,5 +70,19 @@ namespace ADS_Campaign.API.Controllers
             return Ok(result);
         }
 
+        [HttpPost("IncrementViewCount")]
+        public async Task<IActionResult> IncrementViewCountAsync([FromQuery] Guid adId, CancellationToken cancellationToken)
+        {
+            var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+            await _adService.IncrementViewCountAsync(adId, ip, cancellationToken);
+            return Ok();
+        }
+
+        [HttpGet("GetRelatedAdsWithImages")]
+        public async Task<IActionResult> GetRelatedAdsWithImagesAsync([FromQuery] Guid adId)
+        {
+            var result = await _adService.GetRelatedAdsWithImagesAsync(adId);
+            return Ok(result);
+        }
     }
 }

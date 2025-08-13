@@ -10,5 +10,7 @@ namespace ADS_Campaign.Application.Interfaces
         Task<GetByIdAdDto> GetByIdAsync(Guid id);
         Task DeleteAsync(Guid id);
         Task<List<AllAdDto>> GetByUserIdAsync(string userid);
+        Task IncrementViewCountAsync(Guid adId, string userIp, CancellationToken cancellationToken);
+        Task<List<AllAdDto>> GetRelatedAdsWithImagesAsync(Guid adId);
     }
 }
