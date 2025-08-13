@@ -14,7 +14,7 @@ namespace ADS_Campaign.Infrastructure.Persistance.Sql.Repositories
 
         public async Task<List<Ad>> GetByUserIdAsync(string userid) => await _context.Ads.AsNoTracking().Where(a => a.UserId == userid).ToListAsync();
 
-        public async Task<List<Ad>> GetAllAdsWithImages(string? title)
+        public async Task<List<Ad>> GetAllAdsWithImages(string? title, int? categoryId)
         {
             IQueryable<Ad> query = _context.Ads.AsNoTracking().AsSplitQuery()
             .Include(a => a.Images);
@@ -22,6 +22,10 @@ namespace ADS_Campaign.Infrastructure.Persistance.Sql.Repositories
             if (!string.IsNullOrWhiteSpace(title))
             {
                 query = query.Where(a => a.Title.Contains(title));
+            }
+            if (categoryId != null)
+            {
+                query = query.Where(a => a.CategoryId == categoryId);
             }
             return await query.ToListAsync();
         }
