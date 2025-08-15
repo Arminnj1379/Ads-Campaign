@@ -2,6 +2,7 @@
 using ADS_Campaign.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ADS_Campaign.API.Controllers
 {
@@ -59,6 +60,13 @@ namespace ADS_Campaign.API.Controllers
         {
             await _userService.AddAdmin(userid);
             return Ok();
+        }
+        [HttpGet("GetLoggedInUser")]
+        public async Task<IActionResult> GetLoggedInUser()
+        {
+            string UserId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var user = await _userService.GetUserByIdAsync(UserId);
+            return Ok(user);
         }
     }
 }

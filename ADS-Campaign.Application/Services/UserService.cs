@@ -22,7 +22,8 @@ namespace ADS_Campaign.Application.Services
             {
                 UserName = dto.UserName,
                 Email = dto.Email,
-                FullName = dto.FirstName + " " + dto.LastName
+                FullName = dto.FirstName + " " + dto.LastName,
+                PhoneNumber = dto.PhoneNumber,
             };
 
             var result = await _userManager.CreateAsync(user, dto.Password);
@@ -43,7 +44,9 @@ namespace ADS_Campaign.Application.Services
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                Role = userRole
+                Role = userRole,
+                PhoneNumber = user.PhoneNumber,
+                FullName = user.FullName
             };
         }
 
