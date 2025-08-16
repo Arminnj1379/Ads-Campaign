@@ -11,6 +11,6 @@ namespace ADS_Campaign.Application.Interfaces
         Task<IdentityResult> UpdateUserAsync(string userId, UpdateUserDto dto);
         Task<IdentityResult> DeleteUserAsync(string userId);
         Task<string> GetUserRolesAsync(string userId);
-        Task AddAdmin(string userid);
+        Task AddOrRemoveAdmin(string userid);
     }
 }

@@ -64,7 +64,9 @@ namespace ADS_Campaign.Application.Services
                     Id = user.Id,
                     UserName = user.UserName,
                     Email = user.Email,
-                    Role = role
+                    Role = role,
+                    FullName = user.FullName,
+                    PhoneNumber = user.PhoneNumber
                 });
             }
             return userDtos;
@@ -102,11 +104,20 @@ namespace ADS_Campaign.Application.Services
             return await _userManager.DeleteAsync(user);
         }
 
-        public async Task AddAdmin(string userid)
+        public async Task AddOrRemoveAdmin(string userid)
         {
             var user = await _userManager.FindByIdAsync(userid);
-            await _userManager.RemoveFromRoleAsync(user, ApplicationRole.User);
-            await _userManager.AddToRoleAsync(user, ApplicationRole.Admin);
+            var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+            if(userRole == ApplicationRole.User)
+            {
+                await _userManager.RemoveFromRoleAsync(user, ApplicationRole.User);
+                await _userManager.AddToRoleAsync(user, ApplicationRole.Admin);
+            }
+            else
+            {
+                await _userManager.RemoveFromRoleAsync(user, ApplicationRole.Admin);
+                await _userManager.AddToRoleAsync(user, ApplicationRole.User);
+            }
         }
     }
 }

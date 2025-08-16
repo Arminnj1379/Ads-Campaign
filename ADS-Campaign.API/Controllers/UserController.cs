@@ -55,10 +55,10 @@ namespace ADS_Campaign.API.Controllers
             return BadRequest(result.Errors);
         }
 
-        [HttpPost("AddAdmin")]
-        public async Task<IActionResult> AddAdmin([FromQuery] string userid)
+        [HttpPost("AddOrRemoveAdmin")]
+        public async Task<IActionResult> AddOrRemoveAdmin([FromQuery] string userid)
         {
-            await _userService.AddAdmin(userid);
+            await _userService.AddOrRemoveAdmin(userid);
             return Ok();
         }
         [HttpGet("GetLoggedInUser")]
