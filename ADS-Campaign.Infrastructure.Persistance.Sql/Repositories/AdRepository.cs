@@ -37,7 +37,7 @@ namespace ADS_Campaign.Infrastructure.Persistance.Sql.Repositories
         public async Task<List<Ad>> GetRelatedAdsWithImagesAsync(Guid adId)
         {
             var ad = await _context.Ads.FindAsync(adId);
-            var relatedAds = await _context.Ads.AsNoTracking().Include(a => a.Images).Where(a => a.Category == ad.Category).Take(3).ToListAsync();
+            var relatedAds = await _context.Ads.AsNoTracking().Include(a => a.Images).Where(a => a.Category == ad.Category && a.Id != adId).Take(3).ToListAsync();
             if (relatedAds.Count == 0)
             {
                 relatedAds = await _context.Ads.AsNoTracking().Include(a => a.Images).Take(3).ToListAsync();
