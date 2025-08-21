@@ -77,7 +77,7 @@ namespace ADS_Campaign.Application.Services
         }
         public async Task<List<AllAdDto>> GetAllAsync(AdFilter? adFilter)
         {
-            var ads = await _unitOfWork.AdRepository.GetAllAdsWithImages(adFilter?.Title, adFilter?.CategoryId);
+            var ads = await _unitOfWork.AdRepository.GetAllAdsWithImages(adFilter?.Title, adFilter?.Category);
             return ads.AllAd();
         }
 

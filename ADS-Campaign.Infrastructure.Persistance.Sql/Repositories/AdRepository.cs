@@ -18,7 +18,11 @@ namespace ADS_Campaign.Infrastructure.Persistance.Sql.Repositories
         {
             IQueryable<Ad> query = _context.Ads.AsNoTracking().AsSplitQuery()
             .Include(a => a.Images);
-
+            var category = await _context.Categories.FindAsync(categoryId);
+            if (category?.Name.Trim() == "همه")
+            {
+                return await query.ToListAsync();
+            }
             if (!string.IsNullOrWhiteSpace(title))
             {
                 query = query.Where(a => a.Title.Contains(title));

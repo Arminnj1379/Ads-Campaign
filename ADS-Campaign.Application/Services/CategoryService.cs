@@ -36,7 +36,7 @@ namespace ADS_Campaign.Application.Services
 
         public async Task<List<AllCategoryDto>> GetAllAsync()
         {
-            var categories = await _unitOfWork.CategoryRepository.GetAllAsync();
+            var categories = (await _unitOfWork.CategoryRepository.GetAllAsync()).OrderByDescending(c => c.Id).ToList();
             return categories.AllCategoryDto();
         }
 
